@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta ShieldFin | SOC Command Center</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#0b0f19',
+                        cardbg: '#111827',
+                        bordercol: '#1f2937'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-darkbg text-gray-100 font-sans min-h-screen flex flex-col">
+
+    <!-- En-tête / Navbar -->
+    <header class="bg-cardbg border-b border-bordercol px-6 py-4 flex justify-between items-center shadow-lg">
+        <div class="flex items-center space-x-3">
+            <div class="h-3 w-3 bg-emerald-500 rounded-full animate-pulse"></div>
+            <h1 class="text-xl font-bold tracking-wider text-white">META <span class="text-indigo-400">SHIELDFIN</span> <span class="text-xs px-2 py-0.5 bg-indigo-900 text-indigo-200 rounded border border-indigo-700">SOC LIVE</span></h1>
+        </div>
+        <div class="flex items-center space-x-4">
+            <!-- Bouton Fail-Safe -->
+            <button id="failSafeBtn" onclick="toggleFailSafe()" class="px-4 py-2 rounded-lg text-sm font-semibold transition border border-gray-600 bg-gray-800 hover:bg-gray-700 text-gray-300">
+                🛡️ Mode Fail-Safe : <span id="failSafeStatus" class="text-emerald-400">INACTIF (Cloud)</span>
+            </button>
+            <div id="connectionStatus" class="text-xs px-3 py-1 bg-gray-800 text-gray-300 rounded-full border border-gray-700">
+                Connexion…
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenu Principal -->
+    <main class="flex-1 p-6 grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-7xl mx-auto w-full">
+        
+        <!-- Colonne de gauche & milieu : Flux de transactions en direct -->
+        <div class="lg:col-span-2 flex flex-col space-y-6">
+            <div class="bg-cardbg border border-bordercol rounded-xl p-5 shadow-xl">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-semibold text-white flex items-center gap-2">
+                        📡 Flux de Transactions en Temps Réel
+                    </h2>
+                    <span id="txCount" class="text-xs bg-gray-800 text-gray-400 px-2.5 py-1 rounded-md">0 analysées</span>
+                </div>
+                
+                <!-- Tableau des transactions -->
+                <div class="overflow-x-auto max-h-[600px] overflow-y-auto pr-1">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="text-xs text-gray-400 border-b border-bordercol uppercase">
+                                <th class="pb-3 px-3">ID Transaction</th>
+                                <th class="pb-3 px-3">Montant</th>
+                                <th class="pb-3 px-3">Vélocité</th>
+                                <th class="pb-3 px-3">Statut / Action</th>
+                                <th class="pb-3 px-3">Hash SHA-256</th>
+                            </tr>
+                        </thead>
+                        <tbody id="txTableBody" class="divide-y divide-bordercol text-sm">
+                            <!-- Les transactions injectées par WebSocket s'afficheront ici -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Colonne de droite : Panneau d'inspection & Rapports AML Meta Llama -->
+        <div class="flex flex-col space-y-6">
+            <div class="bg-cardbg border border-bordercol rounded-xl p-5 shadow-xl flex-1 flex flex-col">
+                <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                    🤖 Analyse Cognitive (Meta Llama 3.1)
+                </h2>
+                
+                <div id="inspectionPanel" class="flex-1 bg-gray-900/60 border border-bordercol rounded-lg p-4 flex flex-col justify-center items-center text-center text-gray-400">
+                    <svg class="w-12 h-12 mb-3 text-gray-600 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <p class="text-sm">Sélectionnez une transaction suspecte ou de zone grise pour afficher son analyse et son rapport AML/KYC éventuel.</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Script Front-End -->
+    <script src="app.js"></script>
+</body>
+</html>
